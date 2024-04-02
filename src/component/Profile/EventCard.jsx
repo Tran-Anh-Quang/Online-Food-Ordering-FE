@@ -1,5 +1,6 @@
 import React from 'react'
-import { Card, CardMedia, CardContent, Typography } from '@mui/material';
+import { Card, CardMedia, CardContent, Typography, CardActions, IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const EventCard = () => {
     return (
@@ -22,6 +23,11 @@ const EventCard = () => {
                         <p className='text-sm text-red-500'>February 15, 2024 12:AM</p>
                     </div>
                 </CardContent>
+                {false && <CardActions>
+                    <IconButton>
+                        <DeleteIcon />
+                    </IconButton>
+                </CardActions>}
             </Card>
         </div>
     )
