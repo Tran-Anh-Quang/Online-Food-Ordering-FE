@@ -135,7 +135,7 @@ const Cart = () => {
                                     <Field
                                         as={TextField}
                                         name='state'
-                                        label='state'
+                                        label='State'
                                         fullWidth
                                         variant='outlined'
                                         error={!ErrorMessage('streetAddress')}
@@ -150,7 +150,7 @@ const Cart = () => {
                                     <Field
                                         as={TextField}
                                         name='pincode'
-                                        label='pincode'
+                                        label='Pincode'
                                         fullWidth
                                         variant='outlined'
                                         error={!ErrorMessage('streetAddress')}
@@ -165,7 +165,7 @@ const Cart = () => {
                                     <Field
                                         as={TextField}
                                         name='city'
-                                        label='city'
+                                        label='City'
                                         fullWidth
                                         variant='outlined'
                                         error={!ErrorMessage('streetAddress')}
