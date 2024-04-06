@@ -23,8 +23,8 @@ export const registerUser = (request) => async (dispatch) => {
 export const loginUser = (request) => async (dispatch) => {
     dispatch({ type: LOGIN_REQUEST })
     try {
-        const {data}  = await axios.post(`${API_URL}/auth/login`, request.userData)
-        
+        const { data } = await axios.post(`${API_URL}/auth/login`, request.userData)
+
         if (data.token) localStorage.setItem('jwt', data.token);
         if (data.role === 'ROLE_RESTAURANT_OWNER') {
             request.navigate('/admin/restaurant')
@@ -55,7 +55,7 @@ export const getUser = (jwt) => async (dispatch) => {
     }
 }
 
-export const addRestaurantToFavorite = (jwt, restaurantId) => async (dispatch) => {
+export const addRestaurantToFavorite = ({ jwt, restaurantId }) => async (dispatch) => {
     dispatch({ type: ADD_TO_FAVORITE_REQUEST })
     try {
         const { data } = await api.put(`/api/restaurants/${restaurantId}/add-to-favorites`, {}, {

@@ -51,6 +51,7 @@ export const getAllRestaurantsAction = (token) => {
                     Authorization: `Bearer ${token}`
                 }
             })
+            console.log('all restaurants:', data)
             dispatch({ type: GET_ALL_RESTAURANTS_SUCCESS, payload: data })
         } catch (error) {
             console.log('error: ', error)
@@ -66,7 +67,7 @@ export const getRestaurantById = (request) => {
         try {
             const response = await api.get(`/api/restaurants/${request.restaurantId}`, {
                 headers: {
-                    Authorization: `Bearer ${request.token}`
+                    Authorization: `Bearer ${request.jwt}`
                 }
             })
             dispatch({ type: GET_RESTAURANT_BY_ID_SUCCESS, payload: response.data })
@@ -125,7 +126,7 @@ export const updateRestaurant = ({ restaurantId, restaurantData, jwt }) => {
                 }
             });
             dispatch({ type: UPDATE_RESTAURANT_SUCCESS, payload: response.data })
-            console.log('update restaurant: ', data)
+            console.log('update restaurant: ', response.data)
         } catch (error) {
             console.log('error: ', error)
             dispatch({ type: UPDATE_RESTAURANT_FAILURE, payload: error })

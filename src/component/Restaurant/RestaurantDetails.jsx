@@ -1,8 +1,11 @@
 import { Grid, Divider, Typography, FormControl, FormControlLabel, RadioGroup, Radio } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import TodayIcon from '@mui/icons-material/Today';
 import MenuCard from './MenuCard'
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRestaurantById } from '../State/Restaurant/Action';
 
 const categories = [
     "pizza",
@@ -20,13 +23,25 @@ const foodTypes = [
     { label: "Seasonal", value: "seasonal" }
 ]
 
-const menu = [1,1,1,1,1,1,1]
+const menu = [1, 1, 1, 1, 1, 1, 1]
 
 const RestaurantDetails = () => {
     const [foodType, setFoodType] = useState("all")
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const jwt = localStorage.getItem('jwt');
+    const { auth, restaurant } = useSelector((store) => store);
+    const { id, city } = useParams();
     const handleFilter = (e) => {
         console.log(e.target.value, e.target.name)
     }
+
+    console.log('restaurant', restaurant)
+
+    useEffect(() => {
+        dispatch(getRestaurantById({ jwt, restaurantId: id }))
+    }, [dispatch, jwt, id])
+
     return (
         <div className='px-5 lg:px-20'>
             <section>
@@ -37,28 +52,28 @@ const RestaurantDetails = () => {
                             <div>
                                 <img
                                     className='w-full h-[44vh] rounded-t-md object-cover'
-                                    src="https://images.pexels.com/photos/1148565/pexels-photo-1148565.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
+                                    src={restaurant.restaurant?.images[0]} alt="" />
                             </div>
                         </Grid>
                         <Grid item xs={12} lg={6}>
                             <div>
                                 <img
                                     className='w-full h-[44vh] rounded-t-md object-cover'
-                                    src="https://images.pexels.com/photos/887723/pexels-photo-887723.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
+                                    src={restaurant.restaurant?.images[1]} alt="" />
                             </div>
                         </Grid>
                         <Grid item xs={12} lg={6}>
                             <div>
                                 <img
                                     className='w-full h-[44vh] rounded-t-md object-cover'
-                                    src="https://images.pexels.com/photos/3660229/pexels-photo-3660229.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
+                                    src={restaurant.restaurant?.images[2]} alt="" />
                             </div>
                         </Grid>
                     </Grid>
                 </div>
                 <div className='pt-3 pb-5'>
-                    <h1 className='text-4xl font-semibold'> Indian Fast Food</h1>
-                    <p className='text-gray-500 mt-1'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati dolores culpa excepturi nulla sit delectus porro, quo deleniti vero reiciendis molestias necessitatibus accusamus unde atque dolorem sapiente accusantium natus neque.</p>
+                    <h1 className='text-4xl font-semibold'> {restaurant.restaurant?.name}</h1>
+                    <p className='text-gray-500 mt-1'>{restaurant.restaurant?.description}</p>
                     <div className='space-y-3 mt-3'>
                         <p className='text-gray-500 flex items-center gap-3'>
                             <LocationOnIcon />
