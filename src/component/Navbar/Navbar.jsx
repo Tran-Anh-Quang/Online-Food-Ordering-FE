@@ -36,7 +36,7 @@ export const Navbar = () => {
         </div>
         <div className='flex items-center space'>
           {auth.user ? (
-            <Avatar onClick={handleAvatarClick} sx={{ backgroundColor: '#ffffff', color: pink.A400 }}>
+            <Avatar className='cursor-pointer' onClick={handleAvatarClick} sx={{ backgroundColor: '#ffffff', color: pink.A400 }}>
               {auth.user?.fullName[0].toUpperCase()}
             </Avatar>
           ) : (
