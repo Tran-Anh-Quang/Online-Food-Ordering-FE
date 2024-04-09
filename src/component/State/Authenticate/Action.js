@@ -13,7 +13,6 @@ export const registerUser = (request) => async (dispatch) => {
             request.navigate('/')
         }
         dispatch({ type: REGISTER_SUCCESS, payload: data.token });
-        console.log('register success', data)
     } catch (error) {
         dispatch({ type: REGISTER_FAILURE, payload: error })
         console.log('error', error)
@@ -32,7 +31,6 @@ export const loginUser = (request) => async (dispatch) => {
             request.navigate('/')
         }
         dispatch({ type: LOGIN_SUCCESS, payload: data.token });
-        console.log('login success', data)
     } catch (error) {
         dispatch({ type: LOGIN_FAILURE, payload: error })
         console.log('error', error)
@@ -48,7 +46,6 @@ export const getUser = (jwt) => async (dispatch) => {
             }
         })
         dispatch({ type: GET_USER_SUCCESS, payload: data });
-        console.log('user profile', data)
     } catch (error) {
         dispatch({ type: GET_USER_FAILURE, payload: error })
         console.log('error', error)
@@ -64,7 +61,6 @@ export const addRestaurantToFavorite = ({ jwt, restaurantId }) => async (dispatc
             }
         })
         dispatch({ type: ADD_TO_FAVORITE_SUCCESS, payload: data });
-        console.log('add to favorites', data)
     } catch (error) {
         dispatch({ type: ADD_TO_FAVORITE_FAILURE, payload: error })
         console.log('error', error)

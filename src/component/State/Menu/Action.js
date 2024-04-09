@@ -6,7 +6,9 @@ import {
     DELETE_MENU_ITEM_FAILURE,
     DELETE_MENU_ITEM_REQUEST,
     DELETE_MENU_ITEM_SUCCESS,
+    GET_MENU_ITEMS_BY_RESTAURANT_ID_FAILURE,
     GET_MENU_ITEMS_BY_RESTAURANT_ID_REQUEST,
+    GET_MENU_ITEMS_BY_RESTAURANT_ID_SUCCESS,
     SEARCH_MENU_ITEM_FAILURE,
     SEARCH_MENU_ITEM_REQUEST,
     SEARCH_MENU_ITEM_SUCCESS,
@@ -38,21 +40,22 @@ export const getMenuItemsByRestaurantId = (request) => {
     return async (dispatch) => {
         dispatch({ type: GET_MENU_ITEMS_BY_RESTAURANT_ID_REQUEST })
         try {
-            const { data } = await api.get(`/api/admin/food/restaurant/${request.restaurantId}
-            ?vegetarian=${request.vegetarian}
-            &nonveg=${request.nonveg}
-            &seasonal=${request.seasonal}
+            const { data } = await api.get(`/api/food/restaurant/${request.restaurantId}
+            ?isVegetarian=${request.isVegetarian}
+            &isNonVegetarian=${request.isNonVegetarian}
+            &isSeasonal=${request.isSeasonal}
             &food_category=${request.foodCategory}`,
                 {
                     headers: {
                         Authorization: `Bearer ${request.jwt}`
                     },
-                });
+                }
+            );
             console.log('get menu items by restaurant: ', data)
-            dispatch({ type: CREATE_MENU_ITEM_SUCCESS, payload: data })
+            dispatch({ type: GET_MENU_ITEMS_BY_RESTAURANT_ID_SUCCESS, payload: data })
         } catch (error) {
             console.log('error: ', error)
-            dispatch({ type: CREATE_MENU_ITEM_FAILURE, payload: error })
+            dispatch({ type: GET_MENU_ITEMS_BY_RESTAURANT_ID_FAILURE, payload: error })
         }
     }
 }

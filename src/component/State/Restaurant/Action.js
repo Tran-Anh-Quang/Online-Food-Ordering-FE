@@ -269,7 +269,6 @@ export const getRestaurantCategory = ({ jwt, restaurantId }) => {
                     Authorization: `Bearer ${jwt}`
                 }
             });
-            console.log('get restaurants category: ', response.data)
             dispatch({ type: GET_RESTAURANT_CATEGORY_SUCCESS, payload: response.data })
         } catch (error) {
             console.log('error: ', error)

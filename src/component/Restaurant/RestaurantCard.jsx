@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { isPresentInFavorites } from './../Config/Logic';
 import { addRestaurantToFavorite } from '../State/Authenticate/Action';
-import useLocalStorage from '../../Hooks/useLocalStorage';
 
 const RestaurantCard = ({ item }) => {
     const navigate = useNavigate();
@@ -26,7 +25,7 @@ const RestaurantCard = ({ item }) => {
 
     return (
         <Card onClick={handleNavigateToRestaurantDetails} className="w-[18rem]">
-            <div className={`${true ? 'cursor-pointer' : 'cursor-not-allowed'} relative`}>
+            <div className={`${item.open ? 'cursor-pointer' : 'cursor-not-allowed'} relative`}>
                 <img
                     className='w-full h-[10rem] rounded-t-md object-cover'
                     src={item.images[0]} alt=''

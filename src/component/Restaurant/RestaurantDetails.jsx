@@ -5,16 +5,8 @@ import TodayIcon from '@mui/icons-material/Today';
 import MenuCard from './MenuCard'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getRestaurantById } from '../State/Restaurant/Action';
-
-const categories = [
-    "pizza",
-    "burger",
-    "chicken",
-    "cake",
-    "burito",
-    "rolls"
-]
+import { getRestaurantById, getRestaurantCategory } from '../State/Restaurant/Action';
+import { getMenuItemsByRestaurantId } from '../State/Menu/Action';
 
 const foodTypes = [
     { label: "All", value: "all" },
@@ -23,23 +15,30 @@ const foodTypes = [
     { label: "Seasonal", value: "seasonal" }
 ]
 
-const menu = [1, 1, 1, 1, 1, 1, 1]
-
 const RestaurantDetails = () => {
     const [foodType, setFoodType] = useState("all")
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const jwt = localStorage.getItem('jwt');
-    const { auth, restaurant } = useSelector((store) => store);
+    const { auth, restaurant, menu } = useSelector((store) => store);
     const { id, city } = useParams();
     const handleFilter = (e) => {
         console.log(e.target.value, e.target.name)
     }
 
-    console.log('restaurant', restaurant)
-
     useEffect(() => {
         dispatch(getRestaurantById({ jwt, restaurantId: id }))
+        dispatch(getRestaurantCategory({ jwt, restaurantId: id }))
+        dispatch(getMenuItemsByRestaurantId(
+            {
+                jwt,
+                restaurantId: id,
+                isVegetarian: false,
+                isSeasonal: false,
+                isNonVegetarian: false,
+                foodCategory: ''
+            }
+        ))
     }, [dispatch, jwt, id])
 
     return (
@@ -84,7 +83,7 @@ const RestaurantDetails = () => {
                         <p className='text-gray-500 flex items-center gap-3'>
                             <TodayIcon />
                             <span>
-                                Mon - Sun: 9:00 AM - 11:00 PM (Today)
+                                {restaurant.restaurant?.openingHours}
                             </span>
                         </p>
                     </div>
@@ -124,12 +123,12 @@ const RestaurantDetails = () => {
                             </Typography>
                             <FormControl className='py-10 space-y-5' component={"fieldset"}>
                                 <RadioGroup onChange={handleFilter} name='food_type' value={foodTypes}>
-                                    {categories.map((item) => (
+                                    {restaurant.categories.map((item) => (
                                         <FormControlLabel
                                             key={item}
                                             value={item}
                                             control={<Radio />}
-                                            label={item}
+                                            label={item.name}
                                         />
                                     ))}
                                 </RadioGroup>
@@ -138,7 +137,7 @@ const RestaurantDetails = () => {
                     </div>
                 </div>
                 <div className='space-y-5 lg:w-[80%] lg:pl-10'>
-                    {menu.map((item) => <MenuCard />)}
+                    {menu.menuItems.map((item) => <MenuCard item={item} />)}
                 </div>
             </section>
         </div>
