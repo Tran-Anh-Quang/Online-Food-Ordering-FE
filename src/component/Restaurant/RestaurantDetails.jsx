@@ -22,23 +22,34 @@ const RestaurantDetails = () => {
     const jwt = localStorage.getItem('jwt');
     const { auth, restaurant, menu } = useSelector((store) => store);
     const { id, city } = useParams();
+    const [ selectedCategory, setSelectedCategory ] = useState("");
+
     const handleFilter = (e) => {
+        setFoodType(e.target.value)
         console.log(e.target.value, e.target.name)
     }
 
+    const handleFilterCategory = (e, value) => {
+        setSelectedCategory(value);
+        console.log(e.target.value, e.target.name, value)
+    }
+
     useEffect(() => {
-        dispatch(getRestaurantById({ jwt, restaurantId: id }))
-        dispatch(getRestaurantCategory({ jwt, restaurantId: id }))
         dispatch(getMenuItemsByRestaurantId(
             {
                 jwt,
                 restaurantId: id,
-                isVegetarian: false,
-                isSeasonal: false,
-                isNonVegetarian: false,
-                foodCategory: ''
+                isVegetarian: foodType === "vegetarian",
+                isSeasonal: foodType === "seasonal",
+                isNonVegetarian: foodType === "non_vegetarian",
+                foodCategory: selectedCategory
             }
         ))
+    }, [dispatch, jwt, id, selectedCategory, foodType])
+
+    useEffect(() => {
+        dispatch(getRestaurantById({ jwt, restaurantId: id }))
+        dispatch(getRestaurantCategory({ jwt, restaurantId: id }))
     }, [dispatch, jwt, id])
 
     return (
@@ -102,15 +113,21 @@ const RestaurantDetails = () => {
                                 Food Type
                             </Typography>
                             <FormControl className='py-10 space-y-5' component={"fieldset"}>
-                                <RadioGroup onChange={handleFilter} name='food_type' value={foodTypes}>
-                                    {foodTypes.map((item) => (
-                                        <FormControlLabel
-                                            key={item.value}
-                                            value={item.value}
-                                            control={<Radio />}
-                                            label={item.label}
-                                        />
-                                    ))}
+                                <RadioGroup
+                                    onChange={handleFilter}
+                                    name='food_type'
+                                    value={foodTypes}
+                                >
+                                    {foodTypes.map(
+                                        (item) => (
+                                            <FormControlLabel
+                                                key={item.value}
+                                                value={item.value}
+                                                control={<Radio />}
+                                                label={item.label}
+                                            />
+                                        )
+                                    )}
                                 </RadioGroup>
                             </FormControl>
                         </div>
@@ -122,11 +139,15 @@ const RestaurantDetails = () => {
                                 Food Category
                             </Typography>
                             <FormControl className='py-10 space-y-5' component={"fieldset"}>
-                                <RadioGroup onChange={handleFilter} name='food_type' value={foodTypes}>
+                                <RadioGroup
+                                    onChange={handleFilterCategory}
+                                    name='food_category'
+                                    value={selectedCategory}
+                                >
                                     {restaurant.categories.map((item) => (
                                         <FormControlLabel
                                             key={item}
-                                            value={item}
+                                            value={item.name}
                                             control={<Radio />}
                                             label={item.name}
                                         />

@@ -5,8 +5,8 @@ import { AddressCard } from './AddressCard';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import * as Yup from 'yup';
+import { useSelector } from 'react-redux';
 
-const items = [1, 1, 1]
 
 export const style = {
     position: 'absolute',
@@ -41,6 +41,7 @@ const Cart = () => {
     const handleOpenAddressModal = () => setOpen(true);
     const [open, setOpen] = React.useState(false);
     const handleClose = () => setOpen(false);
+    const { cart } = useSelector((store) => store);
     
     
     const handleSubmit = (values) => {
@@ -50,7 +51,7 @@ const Cart = () => {
         <>
             <main className='lg:flex justify-between'>
                 <section className='lg:w-[30%] space-y-6 lg:min-h-screen pt-10'>
-                    {items.map((item) => <CartItem />)}
+                    {cart.cartItems.map((item) => <CartItem item={item}/>)}
 
                     <Divider />
 
@@ -59,7 +60,7 @@ const Cart = () => {
                         <div className='space-y-3'>
                             <div className='flex justify-between text-gray-400'>
                                 <p>Item Total</p>
-                                <p>$499</p>
+                                <p>${cart.cart?.total}</p>
                             </div>
                             <div className='flex justify-between text-gray-400'>
                                 <p>Delivery Fee</p>
@@ -75,7 +76,7 @@ const Cart = () => {
                         </div>
                         <div className='flex justify-between py-5 font-semibold text-xl'>
                             <p>Total Pay</p>
-                            <p>$543</p>
+                            <p>${cart.cart?.total+11+33}</p>
                         </div>
                     </div>
                 </section>
