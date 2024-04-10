@@ -1,23 +1,23 @@
 import React from 'react'
 import { Card, Button } from '@mui/material';
 
-export const OrderCard = () => {
+export const OrderCard = ({ item, order }) => {
     return (
         <Card className='flex justify-between items-center p-5'>
             <div className='flex items-center space-x-5'>
                 <img
                     className='h-16 w-16'
-                    src='https://images.pexels.com/photos/2983022/pexels-photo-2983022.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+                    src={item.food.images[0]}
                     alt=''
                 />
                 <div>
-                    <p>Burger</p>
-                    <p>$399</p>
+                    <p>{item.food.name}</p>
+                    <p>${item.totalPrice}</p>
                 </div>
             </div>
             <div>
-                <Button desabled className='cursor-not-allowed'>
-                    completed
+                <Button className='cursor-not-allowed'>
+                    {order.orderStatus}
                 </Button>
             </div>
         </Card>
