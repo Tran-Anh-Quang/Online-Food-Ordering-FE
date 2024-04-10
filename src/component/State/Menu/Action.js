@@ -51,7 +51,6 @@ export const getMenuItemsByRestaurantId = (request) => {
                     },
                 }
             );
-            console.log('get menu items by restaurant: ', data)
             dispatch({ type: GET_MENU_ITEMS_BY_RESTAURANT_ID_SUCCESS, payload: data })
         } catch (error) {
             console.log('error: ', error)

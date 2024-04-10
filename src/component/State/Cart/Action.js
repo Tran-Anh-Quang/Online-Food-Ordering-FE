@@ -31,6 +31,7 @@ export const findCart = (token) => {
                     Authorization: `Bearer ${token}`
                 }
             })
+            console.log('my cart: ', response.data)
             dispatch({ type: FIND_CART_SUCCESS, payload: response.data })
         } catch (error) {
             console.log('error: ', error)
