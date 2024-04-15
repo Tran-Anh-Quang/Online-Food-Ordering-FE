@@ -11,9 +11,9 @@ export const createOrder = (request) => {
                     Authorization: `Bearer ${request.token}`
                 }
             });
-            // if (data.payment_url){
-            //     window.location.href = data.payment_url;
-            // }
+            if (data.payment_url){
+                window.location.href = data.payment_url;
+            }
             console.log('create order: ', data)
             dispatch({ type: CREATE_ORDER_SUCCESS, payload: data })
         } catch (error) {
